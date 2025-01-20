@@ -96,7 +96,7 @@ main()
         fprintf(fp_req, "pk =\n");
         fprintf(fp_req, "sk =\n");
         fprintf(fp_req, "ct =\n");
-        fprintf(fp_req, "decrypted message =\n");
+//        fprintf(fp_req, "decrypted message =\n");
     }
     fclose(fp_req);
     printf("Finished generating the request file\n");
@@ -133,7 +133,9 @@ main()
             printf("ERROR: unable to read 'seed' from <%s>\n", fn_req);
             return KAT_DATA_ERROR;
         }
-        fprintBstr(fp_rsp, "original message = ", input_message, PPKE_MESSAGEBYTES);
+
+     //   fprintBstr(fp_rsp, "original message = ", input_message, PPKE_MESSAGEBYTES);
+     
  
         randombytes_init(seed, NULL, 256);
         //measuring the time for key generation
@@ -160,10 +162,14 @@ main()
         // enc the key 
         printf("\n before the enc function");
         // printf("ss= %s\n", ss);
-         ntru_kem_enc(ct,ss,pk);
- 
+        
+        key = ntru_kem_enc(ct,ss,pk);
+        if(key<0)
+        {
+            printf("encryption failed.\n");
+        }
          printf("after the enc function");
-         fprintBstr(fp_rsp, "ss= ", ss, LENGTH_OF_HASH);
+       //  fprintBstr(fp_rsp, "ss= ", ss, LENGTH_OF_HASH);
         fprintf(fp_rsp, "\n");
         // Encrypt the message
        /* if ( (ret_val = CCA_enc(ct,input_message,pk)) != 0) {
@@ -182,12 +188,17 @@ main()
             return KAT_CRYPTO_FAILURE;
         }*/
  
-        ntru_kem_dec(ss2,ct,sk,pk);
+        key = ntru_kem_dec(ss2,ct,sk,pk);
+        
+        if(key<0)
+        {
+            printf("decryption failed.\n");
+        }
         //printf("ss = %s\n", ss);
         end_dec = cpucycles_stop();
         decryption_time+=((double)(end_dec-start_dec));
         fprintBstr(fp_rsp, "ct = ", ct, PPKE_CIPHERTEXTBYTES);
-        fprintBstr(fp_rsp, "ss2= ", ss2, LENGTH_OF_HASH);
+        fprintBstr(fp_rsp, "ss= ", ss2, LENGTH_OF_HASH);
  
         fprintf(fp_rsp, "\n");
  
