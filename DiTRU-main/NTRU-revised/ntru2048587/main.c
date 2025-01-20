@@ -19,6 +19,7 @@
 #include "sample.h"
 #include "poly.h"
 #include "cpucycles.h"
+#include "kem.h"
 
 #define	MAX_MARKER_LEN		50
 #define KAT_SUCCESS          0
@@ -40,11 +41,13 @@ main()
     unsigned char       input_message[PPKE_MESSAGEBYTES];
     unsigned char       entropy_input[48];
     unsigned char       ct[PPKE_CIPHERTEXTBYTES];
+    unsigned char       ss[LENGTH_OF_HASH];//shared secret
+    unsigned char       ss2[LENGTH_OF_HASH];
     int                 count;
     int                 done;
     unsigned char       pk[PPKE_CIPHERTEXTBYTES], sk[PPKE_SECRETKEYBYTES];
     int                 ret_val;
-    
+    int                 key;
    
     double execution_time_key = 0 ;
     double encryption_time = 0;
@@ -88,11 +91,12 @@ main()
         //poly_S3_tobytes(input_message,message);
     
         fprintBstr(fp_req, "seed = ", seed, 48);
-        fprintBstr(fp_req, "original message = ", input_message, PPKE_MESSAGEBYTES);
+       //fprintBstr(fp_req, "original message = ", input_message, PPKE_MESSAGEBYTES);
         fprintf(fp_req, "pk =\n");
         fprintf(fp_req, "sk =\n");
         fprintf(fp_req, "ct =\n");
-        fprintf(fp_req, "decrypted message =\n");
+        fprintf(fp_req, "ss =\n");
+        //fprintf(fp_req, "decrypted message =\n");
     }
     fclose(fp_req);
 
@@ -125,11 +129,11 @@ main()
         fprintBstr(fp_rsp, "seed = ", seed, 48);
 
 
-        if ( !ReadHex(fp_req, input_message, PPKE_MESSAGEBYTES, "original message = ") ) {
-            printf("ERROR: unable to read 'seed' from <%s>\n", fn_req);
-            return KAT_DATA_ERROR;
-        }
-        fprintBstr(fp_rsp, "original message = ", input_message, PPKE_MESSAGEBYTES);
+        // if ( !ReadHex(fp_req, input_message, PPKE_MESSAGEBYTES, "original message = ") ) {
+        //     printf("ERROR: unable to read 'seed' from <%s>\n", fn_req);
+        //     return KAT_DATA_ERROR;
+        // }
+        // fprintBstr(fp_rsp, "original message = ", input_message, PPKE_MESSAGEBYTES);
 
         randombytes_init(seed, NULL, 256);
         //measuring the time for key generation
@@ -137,11 +141,17 @@ main()
         start_key = cpucycles_start();
 
         // Generate the public/private keypair
-        if ( (ret_val = CCA_keypair(pk, sk)) <= 0) {
-            printf("crypto_kem_keypair returned <%d>\n", ret_val);
+        // if ( (ret_val = CCA_keypair(pk, sk)) <= 0) {
+        //     printf("crypto_kem_keypair returned <%d>\n", ret_val);
+        //     return KAT_CRYPTO_FAILURE;
+        // }
+        
+        key=ntru_kem_keypair(pk,sk);
+        if (key <= 0){
+            printf("ntru_kem_keypair returned <%d>\n", key);
             return KAT_CRYPTO_FAILURE;
         }
-        
+
         end_key = cpucycles_stop();
         execution_time_key += ((double)(end_key - start_key)/ret_val);
         
@@ -150,23 +160,33 @@ main()
         
         start_enc = cpucycles_start();
         // Encrypt the message
-        if ( (ret_val = CCA_enc(ct,input_message,pk)) != 0) {
-            printf("crypto_kem_enc returned <%d>\n", ret_val);
+        // if ( (ret_val = CCA_enc(ct,input_message,pk)) != 0) {
+        //     printf("crypto_kem_enc returned <%d>\n", ret_val);
+        //     return KAT_CRYPTO_FAILURE;
+        // }
+        key = ntru_kem_enc(ct,ss,pk);
+        if (key != 0){
+            printf("ntru_kem_enc returned <%d>\n", key);
             return KAT_CRYPTO_FAILURE;
         }
         end_enc = cpucycles_stop();
         encryption_time+= ((double)(end_enc - start_enc));
-        unsigned char decrypted_msg[PPKE_MESSAGEBYTES];
+       // unsigned char decrypted_msg[PPKE_MESSAGEBYTES];
 
         start_dec = cpucycles_start();
-        if ( (ret_val = CCA_dec(decrypted_msg,ct,sk,pk)) != 0) {
-            printf("crypto_kem_dec returned <%d>\n", ret_val);
+        // if ( (ret_val = CCA_dec(decrypted_msg,ct,sk,pk)) != 0) {
+        //     printf("crypto_kem_dec returned <%d>\n", ret_val);
+        //     return KAT_CRYPTO_FAILURE;
+        // }
+        if (ntru_kem_dec(ss2,ct,sk,pk) != 0){
+            printf("ntru_kem_dec returned <%d>\n", key);
             return KAT_CRYPTO_FAILURE;
         }
         end_dec = cpucycles_stop();
         decryption_time+=((double)(end_dec-start_dec));
         fprintBstr(fp_rsp, "ct = ", ct, PPKE_CIPHERTEXTBYTES);
-        fprintBstr(fp_rsp, "decrypted message = ", decrypted_msg , PPKE_MESSAGEBYTES);
+        //fprintBstr(fp_rsp, "decrypted message = ", decrypted_msg , PPKE_MESSAGEBYTES);
+        fprintBstr(fp_rsp, "ss = ",ss2 , LENGTH_OF_HASH);
 
         fprintf(fp_rsp, "\n");
 
