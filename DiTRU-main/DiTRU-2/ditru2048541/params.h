@@ -4,7 +4,7 @@
 #define DiTRU
 #define ORDER 541*2
 #define LOGQ 11
-#define N 541  //for dihedral group N is half the order
+#define N 293  //for dihedral group N is half the order
 #define LENGTH_OF_HASH 64
 #ifndef CRYPTO_NAMESPACE
 #define CRYPTO_NAMESPACE(s) s
