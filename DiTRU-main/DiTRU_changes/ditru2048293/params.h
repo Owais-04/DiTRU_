@@ -25,7 +25,7 @@
 #define Q (1 << LOGQ)
 
 
-#define d_f 234  //weight of d_f and d_r
+#define d_f 195 //weight of d_f and d_r
 #define d_g ((ORDER)/3) //weight of d_g 
 #define WEIGHT (d_f+d_g)
 #define SEEDBYTES       32

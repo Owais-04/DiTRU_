@@ -18,8 +18,6 @@ void poly_Rq_mul(poly *r, const poly *a, const poly *b)
 
 void poly_Rq_DiTRU_mul(poly *r, const poly *a, const poly *b)
 {
-
-
   poly x0,x1,x2,x3, x4,x5,x6;
   poly *a0 =&x0, *a1=&x1, *b0=&x2, *b1=&x3, *tmp1=&x4, *tmp2=&x5, *tmp3=&x6;
   int i;
@@ -34,7 +32,7 @@ void poly_Rq_DiTRU_mul(poly *r, const poly *a, const poly *b)
     rotinv(a1,tmp3);
     for(int i=0; i<N; i++)
     {
-      tmp3->coeffs[i] = MODQ(Q-tmp3->coeffs[i]);
+      tmp3->coeffs[i] = MODQ(Q-tmp3->coeffs[i]); //change
     }
     poly_Rq_mul(tmp2,tmp3,b1);
 
@@ -52,31 +50,31 @@ void poly_Rq_DiTRU_mul(poly *r, const poly *a, const poly *b)
         r->coeffs[N+i] = MODQ(tmp1->coeffs[i]+tmp2->coeffs[i]);
       }
 
-  // The multiplication of DiTRU
-//   int i=0, j=0;
-//   for(i=0;i<ORDER;i++){
-//     r->coeffs[i]=0;
-//   }
-//   for(i=0;i<N;i++){
-//     for(j=0;j<N;j++){
-//       r->coeffs[(i+j)%N]= MODQ(r->coeffs[(i+j)%N] + MODQ(a->coeffs[i]*b->coeffs[j])); 
-//     }
-//   }
-//   for(i=0;i<N;i++){
-//     for(j=0;j<N;j++){
-//       r->coeffs[N+(N+j-i)%N]= MODQ(r->coeffs[N+(N+j-i)%N] + MODQ(a->coeffs[i]*b->coeffs[j+N])); 
-//     }
-//   }
-//   for(i=0;i<N;i++){
-//     for(j=0;j<N;j++){
-//       r->coeffs[N+(i+j)%N]= MODQ(r->coeffs[N+(i+j)%N] + MODQ(a->coeffs[i+N]*b->coeffs[j])); 
-//     }
-//   }
-//   for(i=0;i<N;i++){
-//     for(j=0;j<N;j++){
-//       r->coeffs[(N-i+j)%N]= MODQ(r->coeffs[(N-i+j)%N] + MODQ(a->coeffs[i+N]*b->coeffs[j+N])); 
-//     }
-//   }
-// }
 
+
+  // // The multiplication of DiTRU
+  // int i=0, j=0;
+  // for(i=0;i<ORDER;i++){
+  //   r->coeffs[i]=0;
+  // }
+  // for(i=0;i<N;i++){
+  //   for(j=0;j<N;j++){
+  //     r->coeffs[(i+j)%N]= MODQ(r->coeffs[(i+j)%N] + MODQ(a->coeffs[i]*b->coeffs[j])); 
+  //   }
+  // }
+  // for(i=0;i<N;i++){
+  //   for(j=0;j<N;j++){
+  //     r->coeffs[N+(N+j-i)%N]= MODQ(r->coeffs[N+(N+j-i)%N] + MODQ(a->coeffs[i]*b->coeffs[j+N])); 
+  //   }
+  // }
+  // for(i=0;i<N;i++){
+  //   for(j=0;j<N;j++){
+  //     r->coeffs[N+(i+j)%N]= MODQ(r->coeffs[N+(i+j)%N] + MODQ(a->coeffs[i+N]*b->coeffs[j])); 
+  //   }
+  // }
+  // for(i=0;i<N;i++){
+  //   for(j=0;j<N;j++){
+  //     r->coeffs[(N-i+j)%N]= MODQ(r->coeffs[(N-i+j)%N] + MODQ(a->coeffs[i+N]*b->coeffs[j+N])); 
+  //   }
+  // }
 }

@@ -5,6 +5,7 @@
 #include "rng.h"
 #include "crypto_hash_sha3256.h"
 #include <stdio.h>
+#include <time.h>
 
 
 
@@ -13,8 +14,13 @@ int ppke_keypair(unsigned char *pk,
                    unsigned char *sk,
                    unsigned char seed[SAMPLE_FG_BYTES])
 {
-  int i;
+
+  clock_t start;
+  clock_t end;
   int loop=0;
+
+  int i;
+
   poly x1, x2, x3, x4, x5;
 
   poly *f=&x1, *g=&x2, *invf=&x3, *modified_f=&x4;
@@ -23,27 +29,9 @@ int ppke_keypair(unsigned char *pk,
   
   while (1)
   {
-
-  loop++;
-  //printf("inside the loop");  
+  loop++;  
   sample_fixed_type(f,seed,d_f);
-
-  // int count1=0, count2=0;
-  // for(i=0;i<ORDER;i++)
-  // {
-  //   if(f->coeffs[i]==1)
-  //   {
-  //     count1++;
-  //   }
-  //   else if (f->coeffs[i]==2)
-  //   {
-  //     count2++;
-  //   }
-    
-  // }
-  // printf("\n count1 %d", count1);
-  // printf("\n count2 %d", count2);
-
+  
   /* 3F+1*/
   for(i=0;i<ORDER;i++)
     modified_f->coeffs[i] = f->coeffs[i]; 
@@ -53,24 +41,39 @@ int ppke_keypair(unsigned char *pk,
     modified_f->coeffs[i] = MODQ(3*modified_f->coeffs[i]);
   modified_f->coeffs[0] = MODQ(modified_f->coeffs[0]+1);
   
-  //print_polynomial_array(ORDER, modified_f);
   #ifdef NTRU
+ 
   poly_Rq_inv(invf,modified_f);
   poly_Rq_mul(tmp,modified_f,invf);
   #endif
 
   #ifdef DiTRU
+
+  start = clock();
   poly_Rq_inv_DiTRU(invf,modified_f);
+  end= clock();
+  //printf("\n average ditru inv %ld",end-start);
+  
+
+  start = clock();
   poly_Rq_DiTRU_mul(tmp,modified_f,invf);
+  end= clock();
+  
+  //printf("\n average ditru mul %ld",end-start);
+  
+  // poly_Rq_inv_DiTRU(invf,modified_f);
+  // poly_Rq_DiTRU_mul(tmp,modified_f,invf);
 
   #endif
   int inverse_exist=1;
     for(int i=1;i<ORDER;i++){
       if(tmp->coeffs[i]!=0){
+        // printf("\n inverse doesn't exist \n");
         inverse_exist=0;
         break;
       }
     }
+    // printf("tmp[0]: %d \n", tmp->coeffs[0]);
     if(tmp->coeffs[0]!=1){
       inverse_exist=0;
     }
@@ -144,7 +147,8 @@ void ppke_enc(unsigned char *c,
                const poly *h)
 
     {
-      //printf("inside encryption function \n");
+
+      clock_t start, end;
       //r and m are coming from outside
       poly s;
       
@@ -155,13 +159,19 @@ void ppke_enc(unsigned char *c,
 
       #ifdef DiTRU
       //printf("For dihedral");
+      start = clock();
       poly_Rq_DiTRU_mul(&s,r,h);// s = r*h mod Z_qD_N
+      end = clock();
       #endif 
-
+      //printf("\n encryption function: multi: %ld",(end-start));
       unsigned char t_seed[LENGTH_OF_HASH];
       poly mask;
+      start = clock();
       sha3_512(t_seed, (unsigned char *)(&s), ORDER);
       sample_mask(&mask, t_seed);
+      end = clock();
+      //printf("\n cycles sample mask: %ld", (end-start));
+
       for (int i=0;i<ORDER;i++)
       {
           if (mask.coeffs[i] == 2)
@@ -194,8 +204,6 @@ int ppke_dec(poly *m,
               const poly *f)
 {
 //r and m are coming from outside
-
-//printf("inside decryption function!");
 poly x1, x2;
 poly  *c=&x1, *s=&x2;
 poly_Sq_frombytes(c,ciphertext);

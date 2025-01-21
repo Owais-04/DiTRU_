@@ -1,12 +1,12 @@
 #ifndef API_H
 #define API_H
 
-#define CRYPTO_SECRETKEYBYTES 319
-#define CRYPTO_PUBLICKEYBYTES 2391
-#define CRYPTO_CIPHERTEXTBYTES 2391
+#define CRYPTO_SECRETKEYBYTES 217
+#define CRYPTO_PUBLICKEYBYTES 1488
+#define CRYPTO_CIPHERTEXTBYTES 1488
 #define CRYPTO_BYTES 32
 
-#define CRYPTO_ALGNAME "ntrus2048863"
+#define CRYPTO_ALGNAME "ditru2048541"
 
 #define crypto_kem_keypair CRYPTO_NAMESPACE(keypair)
 int crypto_kem_keypair(unsigned char *pk, unsigned char *sk);

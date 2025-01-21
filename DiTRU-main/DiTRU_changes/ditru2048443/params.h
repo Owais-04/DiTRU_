@@ -2,12 +2,13 @@
 #define PARAMS_H
 
 #define DiTRU
-#define ORDER 443*2
+#define ORDER 443*2 //new 
 #define LOGQ 11
-#define N 443 //for dihedral group N is half the order
+#define N 443 //new
 #define LENGTH_OF_HASH 64
 #ifndef CRYPTO_NAMESPACE
 #define CRYPTO_NAMESPACE(s) s
+
 #endif
 
 // #ifdef NTRU_HPS
@@ -24,12 +25,13 @@
 #define Q (1 << LOGQ)
 
 
-#define d_f 530  //weight of d_f and d_r
+#define d_f 159 //weight of d_f and d_r
 #define d_g ((ORDER)/3) //weight of d_g 
 #define WEIGHT (d_f+d_g)
 #define SEEDBYTES       32
 #define PRFKEYBYTES     32
 #define SHAREDKEYBYTES  32
+#define CRYPTO_BYTES2   32
 
 #define SAMPLE_IID_BYTES  (ORDER)
 #define SAMPLE_FT_BYTES   ((30*(ORDER)+7)/8)

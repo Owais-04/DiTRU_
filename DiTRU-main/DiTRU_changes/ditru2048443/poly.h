@@ -12,6 +12,11 @@ typedef struct{
   uint16_t coeffs[ORDER];
 } poly;
 
+typedef struct{
+  uint16_t coeffs[N];
+} cyclic_poly;
+
+
 
 #define poly_mod_3 CRYPTO_NAMESPACE(poly_mod_3) //new
 #define poly_mod_2 CRYPTO_NAMESPACE(poly_mod_2) //new
@@ -36,10 +41,8 @@ void poly_S3_frombytes(poly *r, const unsigned char msg[PACK_TRINARY_BYTES]);
 
 
 #define poly_Rq_mul CRYPTO_NAMESPACE(poly_Rq_mul)
-#define rotinv CRYPTO_NAMESPACE(rotinv) 
+#define rotinv CRYPTO_NAMESPACE(rotinv)
 void rotinv(poly *u, poly *u1);
-
-
 void poly_Rq_mul(poly *r, const poly *a, const poly *b);
 
 

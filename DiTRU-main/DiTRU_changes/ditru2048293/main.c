@@ -173,7 +173,7 @@ int main()
             printf("encryption failed.\n");
         }
         // printf("after the enc function");
-        //  fprintBstr(fp_rsp, "ss= ", ss, LENGTH_OF_HASH);
+          fprintBstr(fp_rsp, "ss1= ", ss, LENGTH_OF_HASH);
     
         // Encrypt the message
         /* if ( (ret_val = CCA_enc(ct,input_message,pk)) != 0) {

@@ -15,8 +15,7 @@ int CCA_keypair(unsigned char *pk,
  //The seed is updated until we find a key, that's why not passed as a constant
  unsigned char seed[SAMPLE_FG_BYTES];
  randombytes(seed, SAMPLE_FG_BYTES);
- int loop = ppke_keypair(pk,sk, seed);
-
+ int loop=ppke_keypair(pk,sk, seed);
  return loop;
 }
 

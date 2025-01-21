@@ -107,13 +107,25 @@ void poly_Rq_inv_DiTRU(poly *r, const poly *a){
   rotinv(v,v1);
   poly_Rq_mul(uu1,u,u1);
   poly_Rq_mul(vv1,v,v1);
+  get_minus(vv1); //newly added for twisted dihderal 
   poly *c = u;
   for(int i=0;i<N;i++){
-    c->coeffs[i]= MODQ(vv1->coeffs[i]+uu1->coeffs[i]);
+    c->coeffs[i]= MODQ(vv1->coeffs[i]-uu1->coeffs[i]);
   }
+  poly temp ;
+  poly *temp1= &temp;
   poly *c_inv = uu1;
   poly_Rq_inv(c_inv,c);
+  poly_Rq_mul(temp1, c, c_inv);
+
+  // for(int i=0;i<N;i++){
+  //   printf(" %d",temp1->coeffs[i]);
+     
+  //   }
+  //   printf("new line \n");
+  
   poly *b = vv1;
+  
   poly_Rq_mul(b,v,c_inv);
   poly *umin = u1;
   get_minus(umin);
@@ -121,7 +133,14 @@ void poly_Rq_inv_DiTRU(poly *r, const poly *a){
   for(int i=0;i<N;i++){
     r->coeffs[i]=v1->coeffs[i];
   }  
+  
   for(int i=N;i<(ORDER);i++){
     r->coeffs[i]=b->coeffs[i-N];
   }
+  // take negative of the coefficients (changed)
+  // for(int i=0;i<ORDER;i++){
+  //   r->coeffs[i]= MODQ(Q- r->coeffs[i]);
+     
+  //   }
+    // printf("new line \n");
 }
