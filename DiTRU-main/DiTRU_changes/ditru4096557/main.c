@@ -140,9 +140,11 @@ int main()
         // }
 
         //   fprintBstr(fp_rsp, "original message = ", input_message, PPKE_MESSAGEBYTES);
-        randombytes_init(seed, NULL, 256);
-        // measuring the time for key generation
+                printf("before the keypair function");
 
+        randombytes_init(seed, NULL, 256);
+
+        // measuring the time for key generation
         start_key = cpucycles_start();
 
         // Generate the public/private keypair
@@ -150,12 +152,14 @@ int main()
         // printf("crypto_kem_keypair returned <%d>\n", ret_val);
         // return KAT_CRYPTO_FAILURE;
         //}
-       
+       printf("before the keypair function 2");
         key = ntru_kem_keypair(pk, sk);
+        printf("after the keypair function");
         if (key <= 0)
         {
             printf("ntru_kem_keypair returned <%d>\n", key);
         }
+     
 
         end_key = cpucycles_stop();
         execution_time_key += ((double)(end_key - start_key) / ret_val);
@@ -172,8 +176,8 @@ int main()
         {
             printf("encryption failed.\n");
         }
-        // printf("after the enc function");
-          fprintBstr(fp_rsp, "ss1= ", ss, LENGTH_OF_HASH);//changed
+        printf("after the enc function");
+         fprintBstr(fp_rsp, "ss1= ", ss, LENGTH_OF_HASH);//changed
     
         // Encrypt the message
         /* if ( (ret_val = CCA_enc(ct,input_message,pk)) != 0) {
@@ -198,13 +202,13 @@ int main()
         {
             printf("decryption failed.\n");
         }
-        // printf("ss = %s\n", ss);
-        end_dec = cpucycles_stop();
-        decryption_time += ((double)(end_dec - start_dec));
-        fprintBstr(fp_rsp, "ct = ", ct, PPKE_CIPHERTEXTBYTES);
-        fprintBstr(fp_rsp, "ss= ", ss2, LENGTH_OF_HASH);
+        // // printf("ss = %s\n", ss);
+        // end_dec = cpucycles_stop();
+        // decryption_time += ((double)(end_dec - start_dec));
+         fprintBstr(fp_rsp, "ct = ", ct, PPKE_CIPHERTEXTBYTES);
+         fprintBstr(fp_rsp, "ss= ", ss2, LENGTH_OF_HASH);
 
-        fprintf(fp_rsp, "\n");
+        // fprintf(fp_rsp, "\n");
 
     } while (!done);
 

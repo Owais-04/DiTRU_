@@ -12,6 +12,11 @@ typedef struct{
   uint16_t coeffs[ORDER];
 } poly;
 
+typedef struct{
+  uint16_t coeffs[N];
+} cyclic_poly;
+
+
 
 #define poly_mod_3 CRYPTO_NAMESPACE(poly_mod_3) //new
 #define poly_mod_2 CRYPTO_NAMESPACE(poly_mod_2) //new

@@ -193,7 +193,10 @@ void ppke_enc(unsigned char *c,
       cipher.coeffs[i] = MODQ(s.coeffs[i] + m->coeffs[i]);
       }
       poly_Sq_tobytes(c,&cipher);
-      
+      printf("\n c in encryption \n: ");
+      for(int i=0;i<ORDER;i++){
+        printf("%d ", cipher.coeffs[i]);
+      }
 
     }
 
@@ -207,6 +210,10 @@ int ppke_dec(poly *m,
 poly x1, x2;
 poly  *c=&x1, *s=&x2;
 poly_Sq_frombytes(c,ciphertext);
+printf("\n c in decryption \n: ");
+for(int i=0;i<ORDER;i++){
+  printf("%d ", c->coeffs[i]);
+}
 
       
 #ifdef NTRU

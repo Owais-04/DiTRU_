@@ -13,7 +13,7 @@ void poly_Sq_tobytes(unsigned char *r, const poly *a)
   }
   //1  coefficient is remaining needs two bytes
   //r[3 * i + 0] = (unsigned char) ( MODQ(a->coeffs[2 * i + 0]) & 0xff);
-  //r[3 * i + 1] = (unsigned char) ((MODQ(a->coeffs[2 * i + 0]) >>  8) | ((MODQ(a->coeffs[2 * i + 1]) & 0x0f) << 4));
+ // r[3 * i + 1] = (unsigned char) ((MODQ(a->coeffs[2 * i + 0]) >>  8) | ((MODQ(a->coeffs[2 * i + 1]) & 0x0f) << 4));
 }
 
 void poly_Sq_frombytes(poly *r, const unsigned char *a)
@@ -25,6 +25,6 @@ void poly_Sq_frombytes(poly *r, const unsigned char *a)
     r->coeffs[2*i+1] = (a[3*i+ 1] >> 4) | (((uint16_t)a[3*i+ 2] & 0xff) << 4);
   }
   // Retrieve the coefficient stored in last two bytes
-//  r->coeffs[2*i+0] = (a[3*i+ 0] >> 0) | (((uint16_t)a[3*i+ 1] & 0x0f) << 8);
+  //r->coeffs[2*i+0] = (a[3*i+ 0] >> 0) | (((uint16_t)a[3*i+ 1] & 0x0f) << 8);
   //r->coeffs[NTRU_N-1] = 0;
 }

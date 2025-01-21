@@ -4,7 +4,7 @@
 
 
 int ntru_kem_keypair(unsigned char *pk,unsigned char *sk){
-// {  printf("inside the ntru kemn keypair function");
+ printf("inside the ntru kemn keypair function");
    int i= CCA_keypair(pk,sk);
    return i;
 } 

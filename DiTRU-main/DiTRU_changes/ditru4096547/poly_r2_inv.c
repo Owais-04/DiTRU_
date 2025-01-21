@@ -153,4 +153,3 @@ void poly_R2_inv_v2(poly *r, const poly *a)
  }
 }
 
-
