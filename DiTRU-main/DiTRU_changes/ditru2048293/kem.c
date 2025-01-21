@@ -3,21 +3,21 @@
 #include "api.h"
 
 
-int ntru_kem_keypair(unsigned char *pk,unsigned char *sk)
-{
+int ntru_kem_keypair(unsigned char *pk,unsigned char *sk){
+// {  printf("inside the ntru kemn keypair function");
    int i= CCA_keypair(pk,sk);
    return i;
 } 
 
 
-int  ntru_kem_enc(unsigned char *ct,unsigned char *ss,const unsigned char *pk)
-{  printf("\n inside ntru kem enc");
+int  ntru_kem_enc(unsigned char *ct,unsigned char *ss,const unsigned char *pk){
+//  printf("\n inside ntru kem enc");
    // unsigned char* secret_seed=malloc(SAMPLE_IID_BYTES);
       
   // unsigned char* shared_secret=malloc(PACK_TRINARY_BYTES);
   unsigned char secret_seed[SAMPLE_IID_BYTES];
   unsigned char shared_secret[PACK_TRINARY_BYTES];
-   printf("after this fn");
+   // printf("after this fn");
    poly x1;
    poly * shared_secret_3 =&x1;
    
@@ -35,8 +35,7 @@ int  ntru_kem_enc(unsigned char *ct,unsigned char *ss,const unsigned char *pk)
     return i;
     
 }
-int ntru_kem_dec(unsigned char *ss,const unsigned char* ct, char* sk,char *pk)
-{   
+int ntru_kem_dec(unsigned char *ss,const unsigned char* ct, char* sk,char *pk){   
   //  unsigned char* shared_secret=malloc(PACK_TRINARY_BYTES);
   unsigned char shared_secret[PACK_TRINARY_BYTES];
    int i= CCA_dec(shared_secret,ct,sk,pk);

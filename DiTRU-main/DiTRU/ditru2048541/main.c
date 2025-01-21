@@ -92,10 +92,11 @@ int main()
         // poly_S3_tobytes(input_message,message);
 
         fprintBstr(fp_req, "seed = ", seed, 48);
-        fprintBstr(fp_req, "original message = ", input_message, PPKE_MESSAGEBYTES);
+        //fprintBstr(fp_req, "original message = ", input_message, PPKE_MESSAGEBYTES);
         fprintf(fp_req, "pk =\n");
         fprintf(fp_req, "sk =\n");
         fprintf(fp_req, "ct =\n");
+        fprintf(fp_req, "ss =\n");
         //        fprintf(fp_req, "decrypted message =\n");
     }
     fclose(fp_req);

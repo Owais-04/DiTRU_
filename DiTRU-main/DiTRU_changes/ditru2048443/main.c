@@ -134,10 +134,10 @@ int main()
         }
         fprintBstr(fp_rsp, "seed = ", seed, 48);
 
-        if ( !ReadHex(fp_req, input_message, PPKE_MESSAGEBYTES, "original message = ") ) {
-            printf("ERROR: unable to read 'seed' from <%s>\n", fn_req);
-            return KAT_DATA_ERROR;
-         }
+        //if ( !ReadHex(fp_req, input_message, PPKE_MESSAGEBYTES, "original message = ") ) {
+            //printf("ERROR: unable to read 'seed' from <%s>\n", fn_req);
+            //return KAT_DATA_ERROR;
+        // }
         // fprintBstr(fp_rsp, "original message = ", input_message, PPKE_MESSAGEBYTES);
 
         randombytes_init(seed, NULL, 256);

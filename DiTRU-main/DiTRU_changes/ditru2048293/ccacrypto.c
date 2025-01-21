@@ -16,7 +16,6 @@ int CCA_keypair(unsigned char *pk,
  unsigned char seed[SAMPLE_FG_BYTES];
  randombytes(seed, SAMPLE_FG_BYTES);
  int loop=ppke_keypair(pk,sk, seed);
-
  return loop;
 }
 

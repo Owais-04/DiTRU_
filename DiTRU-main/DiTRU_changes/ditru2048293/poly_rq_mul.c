@@ -32,7 +32,7 @@ void poly_Rq_DiTRU_mul(poly *r, const poly *a, const poly *b)
     rotinv(a1,tmp3);
     for(int i=0; i<N; i++)
     {
-      tmp3->coeffs[i] = MODQ(-(int)(tmp3->coeffs[i]));
+      tmp3->coeffs[i] = MODQ(Q-tmp3->coeffs[i]); //change
     }
     poly_Rq_mul(tmp2,tmp3,b1);
 

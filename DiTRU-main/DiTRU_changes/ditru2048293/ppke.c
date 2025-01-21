@@ -58,6 +58,7 @@ int ppke_keypair(unsigned char *pk,
   start = clock();
   poly_Rq_DiTRU_mul(tmp,modified_f,invf);
   end= clock();
+  
   //printf("\n average ditru mul %ld",end-start);
   
   // poly_Rq_inv_DiTRU(invf,modified_f);
@@ -67,11 +68,12 @@ int ppke_keypair(unsigned char *pk,
   int inverse_exist=1;
     for(int i=1;i<ORDER;i++){
       if(tmp->coeffs[i]!=0){
-        //printf("\n inverse doesn't exist \n");
+        // printf("\n inverse doesn't exist \n");
         inverse_exist=0;
         break;
       }
     }
+    // printf("tmp[0]: %d \n", tmp->coeffs[0]);
     if(tmp->coeffs[0]!=1){
       inverse_exist=0;
     }

@@ -2,9 +2,9 @@
 #define PARAMS_H
 
 #define DiTRU
-#define ORDER 797*2
-#define LOGQ 12
-#define N 797  //for dihedral group N is half the order
+#define ORDER 443*2
+#define LOGQ 11
+#define N 443 //for dihedral group N is half the order
 #define LENGTH_OF_HASH 64
 #ifndef CRYPTO_NAMESPACE
 #define CRYPTO_NAMESPACE(s) s

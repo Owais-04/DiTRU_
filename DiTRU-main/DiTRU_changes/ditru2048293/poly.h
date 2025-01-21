@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define MODQ(X) (((X) % Q + Q) % Q)//changed to handle negative modulo
+#define MODQ(X) ((X) & (Q-1))
 
 typedef struct{
   uint16_t coeffs[ORDER];

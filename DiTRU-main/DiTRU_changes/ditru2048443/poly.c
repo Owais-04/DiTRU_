@@ -109,7 +109,7 @@ void poly_Rq_inv_DiTRU(poly *r, const poly *a){
   poly_Rq_mul(vv1,v,v1);
   poly *c = u;
   for(int i=0;i<N;i++){
-    c->coeffs[i]= MODQ(vv1->coeffs[i]-uu1->coeffs[i]);
+    c->coeffs[i]= MODQ(vv1->coeffs[i]+uu1->coeffs[i]);
   }
   poly *c_inv = uu1;
   poly_Rq_inv(c_inv,c);
