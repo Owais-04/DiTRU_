@@ -32,8 +32,6 @@
 int
 main()
 {
-
-    printf("inside the main function");
     char                fn_req[32], fn_rsp[32];
     FILE                *fp_req, *fp_rsp;
     unsigned char       seed[48];

@@ -100,7 +100,7 @@ int main()
     }
     
     fclose(fp_req);
-    printf("Finished generating the request file\n");
+    //printf("Finished generating the request file\n");
     // Create the RESPONSE file based on what's in the REQUEST file
     if ((fp_req = fopen(fn_req, "r")) == NULL)
     {
@@ -140,7 +140,7 @@ int main()
         // }
 
         //   fprintBstr(fp_rsp, "original message = ", input_message, PPKE_MESSAGEBYTES);
-                printf("before the keypair function");
+            
 
         randombytes_init(seed, NULL, 256);
 
@@ -152,9 +152,9 @@ int main()
         // printf("crypto_kem_keypair returned <%d>\n", ret_val);
         // return KAT_CRYPTO_FAILURE;
         //}
-       printf("before the keypair function 2");
+       
         key = ntru_kem_keypair(pk, sk);
-        printf("after the keypair function");
+    
         if (key <= 0)
         {
             printf("ntru_kem_keypair returned <%d>\n", key);
@@ -176,8 +176,8 @@ int main()
         {
             printf("encryption failed.\n");
         }
-        printf("after the enc function");
-         fprintBstr(fp_rsp, "ss1= ", ss, LENGTH_OF_HASH);//changed
+        //printf("after the enc function");
+       //fprintBstr(fp_rsp, "ss1= ", ss, LENGTH_OF_HASH);//changed
     
         // Encrypt the message
         /* if ( (ret_val = CCA_enc(ct,input_message,pk)) != 0) {

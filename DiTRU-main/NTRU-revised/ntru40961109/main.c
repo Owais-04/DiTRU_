@@ -30,7 +30,6 @@
 int main()
 {
 
-    printf("inside the main function");
     char fn_req[32], fn_rsp[32];
     FILE *fp_req, *fp_rsp;
     unsigned char seed[48];
@@ -100,7 +99,7 @@ int main()
     }
     
     fclose(fp_req);
-    printf("Finished generating the request file\n");
+    
     // Create the RESPONSE file based on what's in the REQUEST file
     if ((fp_req = fopen(fn_req, "r")) == NULL)
     {

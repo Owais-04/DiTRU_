@@ -100,7 +100,7 @@ int main()
         //        fprintf(fp_req, "decrypted message =\n");
     }
     fclose(fp_req);
-    printf("Finished generating the request file\n");
+    
     // Create the RESPONSE file based on what's in the REQUEST file
     if ((fp_req = fopen(fn_req, "r")) == NULL)
     {
@@ -133,11 +133,11 @@ int main()
         }
         fprintBstr(fp_rsp, "seed = ", seed, 48);
 
-        if (!ReadHex(fp_req, input_message, PPKE_MESSAGEBYTES, "original message = "))
-        {
-            printf("ERROR: unable to read 'seed' from <%s>\n", fn_req);
-            return KAT_DATA_ERROR;
-        }
+        // if (!ReadHex(fp_req, input_message, PPKE_MESSAGEBYTES, "original message = "))
+        // {
+        //     printf("ERROR: unable to read 'seed' from <%s>\n", fn_req);
+        //     return KAT_DATA_ERROR;
+        // }
 
         //   fprintBstr(fp_rsp, "original message = ", input_message, PPKE_MESSAGEBYTES);
 
@@ -159,13 +159,12 @@ int main()
 
         end_key = cpucycles_stop();
         execution_time_key += ((double)(end_key - start_key) / ret_val);
-        printf("response file\n");
+      
         fprintBstr(fp_rsp, "pk = ", pk, PPKE_PUBLICKEYBYTES);
         fprintBstr(fp_rsp, "sk = ", sk, PPKE_SECRETKEYBYTES);
 
         start_enc = cpucycles_start();
         // enc the key
-        printf("\n before the enc function");
         // printf("ss= %s\n", ss);
 
         key = ntru_kem_enc(ct, ss, pk);
@@ -173,9 +172,8 @@ int main()
         {
             printf("encryption failed.\n");
         }
-        printf("after the enc function");
+
         //  fprintBstr(fp_rsp, "ss= ", ss, LENGTH_OF_HASH);
-        fprintf(fp_rsp, "\n");
         // Encrypt the message
         /* if ( (ret_val = CCA_enc(ct,input_message,pk)) != 0) {
              printf("crypto_kem_enc returned <%d>\n", ret_val);

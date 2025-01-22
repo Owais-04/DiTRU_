@@ -100,7 +100,7 @@ int main()
     }
     
     fclose(fp_req);
-    printf("Finished generating the request file\n");
+    //printf("Finished generating the request file\n");
     // Create the RESPONSE file based on what's in the REQUEST file
     if ((fp_req = fopen(fn_req, "r")) == NULL)
     {
@@ -173,7 +173,7 @@ int main()
             printf("encryption failed.\n");
         }
         // printf("after the enc function");
-          fprintBstr(fp_rsp, "ss1= ", ss, LENGTH_OF_HASH);
+          //fprintBstr(fp_rsp, "ss1= ", ss, LENGTH_OF_HASH);
     
         // Encrypt the message
         /* if ( (ret_val = CCA_enc(ct,input_message,pk)) != 0) {

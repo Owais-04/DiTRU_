@@ -100,7 +100,7 @@ int main()
     }
     
     fclose(fp_req);
-    printf("Finished generating the request file\n");
+   // printf("Finished generating the request file\n");
     // Create the RESPONSE file based on what's in the REQUEST file
     if ((fp_req = fopen(fn_req, "r")) == NULL)
     {

@@ -52,7 +52,7 @@ void poly_Sq_tobytes(unsigned char *r, const poly *a)
       r[11 * i + 0] = (unsigned char) (t[0]        & 0xff);
       r[11 * i + 1] = (unsigned char) (t[0] >>  8) | ((t[1] & 0x1f) << 3);
       r[11 * i + 2] = (unsigned char) (t[1] >>  5) | ((t[2] & 0x03) << 6);
-      printf("\ncase 2 pack");
+      //printf("\ncase 2 pack");
       break;
       
   }
@@ -93,7 +93,7 @@ void poly_Sq_frombytes(poly *r, const unsigned char *a)
       break;
 
     case 2:
-    printf("\ncase 2 unpack \n");
+    //printf("\ncase 2 unpack \n");
       r->coeffs[8*i+0] = (a[11*i+ 0] >> 0) | (((uint16_t)a[11*i+ 1] & 0x07) << 8);
       r->coeffs[8*i+1] = (a[11*i+ 1] >> 3) | (((uint16_t)a[11*i+ 2] & 0x3f) << 5);
       break;
