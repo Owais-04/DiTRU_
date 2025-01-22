@@ -155,6 +155,7 @@ int main()
         if (key <= 0)
         {
             printf("ntru_kem_keypair returned <%d>\n", key);
+            return KAT_CRYPTO_FAILURE;
         }
 
         end_key = cpucycles_stop();
@@ -168,9 +169,10 @@ int main()
         // printf("ss= %s\n", ss);
 
         key = ntru_kem_enc(ct, ss, pk);
-        if (key < 0)
+        if (key != 0)
         {
-            printf("encryption failed.\n");
+            printf("ntru_kem_enc returned <%d>\n", key);
+            return KAT_CRYPTO_FAILURE;
         }
         // printf("after the enc function");
          // fprintBstr(fp_rsp, "ss1= ", ss, LENGTH_OF_HASH);//changed
@@ -194,9 +196,10 @@ int main()
 
         key = ntru_kem_dec(ss2, ct, sk, pk);
 
-        if (key < 0)
+        if (key != 0)
         {
-            printf("decryption failed.\n");
+            printf("ntru_kem_dec returned <%d>\n", key);
+            return KAT_CRYPTO_FAILURE;
         }
         // printf("ss = %s\n", ss);
         end_dec = cpucycles_stop();

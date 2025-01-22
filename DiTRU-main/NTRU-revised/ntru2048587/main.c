@@ -176,7 +176,8 @@ main()
         //     printf("crypto_kem_dec returned <%d>\n", ret_val);
         //     return KAT_CRYPTO_FAILURE;
         // }
-        if (ntru_kem_dec(ss2,ct,sk,pk) != 0){
+        key=ntru_kem_dec(ss2,ct,sk,pk);
+        if (key != 0){
             printf("ntru_kem_dec returned <%d>\n", key);
             return KAT_CRYPTO_FAILURE;
         }

@@ -152,10 +152,11 @@ int main()
         // return KAT_CRYPTO_FAILURE;
         //}
         key = ntru_kem_keypair(pk, sk);
-        if (key <= 0)
-        {
+          if (key <= 0){
             printf("ntru_kem_keypair returned <%d>\n", key);
+            return KAT_CRYPTO_FAILURE;
         }
+
 
         end_key = cpucycles_stop();
         execution_time_key += ((double)(end_key - start_key) / ret_val);
@@ -168,11 +169,10 @@ int main()
         // printf("ss= %s\n", ss);
 
         key = ntru_kem_enc(ct, ss, pk);
-        if (key < 0)
-        {
-            printf("encryption failed.\n");
+        if (key != 0){
+            printf("ntru_kem_enc returned <%d>\n", key);
+            return KAT_CRYPTO_FAILURE;
         }
-
         //  fprintBstr(fp_rsp, "ss= ", ss, LENGTH_OF_HASH);
         // Encrypt the message
         /* if ( (ret_val = CCA_enc(ct,input_message,pk)) != 0) {
@@ -192,11 +192,10 @@ int main()
         }*/
 
         key = ntru_kem_dec(ss2, ct, sk, pk);
-
-        if (key < 0)
+        if (key != 0)
         {
-            printf("decryption failed.\n");
-        }
+         printf("ntru_kem_dec returned <%d>\n", key);
+            return KAT_CRYPTO_FAILURE;        }
         // printf("ss = %s\n", ss);
         end_dec = cpucycles_stop();
         decryption_time += ((double)(end_dec - start_dec));
